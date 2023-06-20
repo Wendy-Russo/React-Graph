@@ -49,26 +49,25 @@ let data = createFakeData(pointsX)
 const addText = (text,size,resolution,position) => {
 
   //Setup and Position
-  let plane = MeshBuilder.CreatePlane("text", {width: size*50, height : size});
+  let plane = MeshBuilder.CreatePlane("text", {width: size*5, height : size});
   plane.position = position
   plane.billboardMode = 2;
 
   //Create dynamic texture
-	var textureGround = new DynamicTexture("dynamic texture", {width:resolution*50, height:resolution});   
-	
+	var textureGround = new DynamicTexture("dynamic texture", {width:resolution*5, height:resolution});   
+
+  //Add text to dynamic texture
+  textureGround.drawText(text, null, null, `${Math.round(resolution)}px regular`, "white","transparent", true, true);
+  textureGround.getContext().textAlign = "center"
+
   //Create a flat material
 	var materialGround = new StandardMaterial("Mat");    				
 	materialGround.diffuseTexture = textureGround;
   materialGround.diffuseTexture.hasAlpha = true;
   materialGround.backFaceCulling = false;
   materialGround.specularColor = Color3.Black()
+
 	plane.material = materialGround;
-
-
-  //Add text to dynamic texture
-  textureGround.drawText(text, null, null, `${Math.round(resolution)}px regular`, "white","", true, true);
-  textureGround.getContext().textAlign = "center"
-  plane.color = Color3.White()
 
   return plane
 }
